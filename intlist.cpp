@@ -1,6 +1,5 @@
 
 #include "intlist.h"
-
 #include <iostream>
 using std::cout;
 
@@ -9,24 +8,39 @@ IntList::IntList() {
     head = nullptr;
 }
 
-// copy constructor
-IntList::IntList(const IntList& source) {
-    head = nullptr;
-    Node* curr = source.head;
-    while (curr) {
-        push_back(curr->info);
-        curr = curr->next;
-    }
+// inserts value as new node at beginning of list
+void IntList::push_front(int value) {
+    Node* newNode = new Node;
+    newNode->info = value;
+    newNode->next = head;
+    head = newNode;
 }
 
-// destructor deletes all nodes
-IntList::~IntList() {
+// append value at end of list
+void IntList::push_back(int value) {
+    Node* newNode = new Node;
+    newNode->info = value;
+    newNode->next = nullptr;
+    if (!head) {
+        head = newNode;
+        return;
+    }
+    Node* curr = head;
+    while (curr->next) {
+        curr = curr->next;
+    }
+    curr->next = newNode;
+}
+
+// return count of values
+int IntList::count() const {
+    int cnt = 0;
     Node* curr = head;
     while (curr) {
-        Node* next = curr->next;
-        delete curr;
-        curr = next;
+        cnt++;
+        curr = curr->next;
     }
+    return cnt;
 }
 
 // return sum of values in list
@@ -77,61 +91,32 @@ double IntList::average() const {
     return static_cast<double>(total) / cnt;
 }
 
-// inserts value as new node at beginning of list
-void IntList::push_front(int value) {
-    Node* newNode = new Node;
-    newNode->info = value;
-    newNode->next = head;
-    head = newNode;
+// print values enclosed in [], separated by spaces
+void IntList::print() const {
+    Node* n = head;
+    cout << '[';
+    while (n) {
+        cout << n->info;
+        if (n->next)
+            cout << " ";
+        n = n->next;
+    }
+    cout << ']';
 }
 
-// append value at end of list
-void IntList::push_back(int value) {
-    Node* newNode = new Node;
-    newNode->info = value;
-    newNode->next = nullptr;
-    if (!head) {
-        head = newNode;
-        return;
-    }
-    Node* curr = head;
-    while (curr->next) {
-        curr = curr->next;
-    }
-    curr->next = newNode;
-}
-
-// return count of values
-int IntList::count() const {
-    int cnt = 0;
-    Node* curr = head;
-    while (curr) {
-        cnt++;
-        curr = curr->next;
-    }
-    return cnt;
-}
-
-// Assignment operator should copy the list from the source
-// to this list, deleting/replacing any existing nodes
-IntList& IntList::operator=(const IntList& source) {
-    if (this == &source) return *this;
-
-    // Delete existing nodes
-    Node* curr = head;
-    while (curr) {
-        Node* next = curr->next;
-        delete curr;
-        curr = next;
-    }
+// copy constructor (not yet implemented)
+IntList::IntList(const IntList& source) {
+    // to be implemented in later step
     head = nullptr;
+}
 
-    // Copy nodes from source
-    curr = source.head;
-    while (curr) {
-        push_back(curr->info);
-        curr = curr->next;
-    }
+// destructor (not yet implemented)
+IntList::~IntList() {
+    // to be implemented in later step
+}
 
+// assignment operator (not yet implemented)
+IntList& IntList::operator=(const IntList& source) {
+    // to be implemented in later step
     return *this;
 }
